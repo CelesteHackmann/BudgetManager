@@ -29,30 +29,28 @@ function App() {
   }
 
   return (
-    <table id="transacitons">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Description</th>
-          <th>Amount</th>
-        </tr>
-      </thead>
-      <tbody>
-        {transactions.map((transaction) => (
-          <tr key={transaction.id}>
-            <td>{transaction.created_at}</td>
-            <td>{transaction.description}</td>
-            <td>{transaction.amount}</td>
+    <view>
+      <h1>Budget Manager</h1>
+      <h2>Transactions</h2>
+      <table id="transacitons">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Amount</th>
           </tr>
-        ))}
-      </tbody>
-      <tfoot>
-        <tr>
-          <th colSpan="2">Total Spent</th>
-          <td>{totalSpent}</td>
-        </tr>
-      </tfoot>
-    </table>
+        </thead>
+        <tbody>
+          {transactions.map((transaction) => (
+            <tr key={transaction.id}>
+              <td>{transaction.created_at}</td>
+              <td>{transaction.description}</td>
+              <td>{transaction.amount}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </view>
   );
 }
 
