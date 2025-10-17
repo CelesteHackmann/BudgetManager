@@ -9,6 +9,7 @@ function App() {
 
   useEffect(() => {
     getTransactions();
+    getTotalSpent();
   }, []);
 
   async function getTransactions() {
@@ -16,16 +17,29 @@ function App() {
     setTransactions(data);
   }
 
+  const [totalSpent, setTotalSpent] = useState([]);
+  async function getTotalSpent() {
+    const { data, error } = await supabase.from("transactions").select("amount");
+    if (error) {
+      console.error("Error fetching total spent:", error);
+      return;
+    }
+    const total = data.reduce((acc, transaction) => acc + transaction.amount, 0);
+    setTotalSpent(total.toFixed(2));
+  }
+
   return (
     <table id="transacitons">
       <thead>
-        <th>Date</th>
-        <th>Description</th>
-        <th>Amount</th>
+        <tr>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Amount</th>
+        </tr>
       </thead>
       <tbody>
         {transactions.map((transaction) => (
-          <tr id={transaction.id}>
+          <tr key={transaction.id}>
             <td>{transaction.created_at}</td>
             <td>{transaction.description}</td>
             <td>{transaction.amount}</td>
@@ -34,8 +48,8 @@ function App() {
       </tbody>
       <tfoot>
         <tr>
-          <th colspan="2">Total Spent</th>
-          <td>ToDo: Math Here</td>
+          <th colSpan="2">Total Spent</th>
+          <td>{totalSpent}</td>
         </tr>
       </tfoot>
     </table>
