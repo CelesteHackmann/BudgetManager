@@ -1,0 +1,16 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  align-self: flex-start;
+}
+
+table th,
+table td {
+  text-align: left;
+}
+
+table tfoot th {
+  text-align: right;
+}
