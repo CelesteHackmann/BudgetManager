@@ -9,30 +9,22 @@ function App() {
 
   useEffect(() => {
     getTransactions();
-    getTotalSpent();
   }, []);
 
   async function getTransactions() {
-    const { data } = await supabase.from("transactions").select();
+    const { data, error } = await supabase.from("transactions").select('id,created_at,description,amount').order('created_at', { ascending: true });
+    if (error) {
+      console.error("Error fetching transactions:", error);
+      return;
+    }
     setTransactions(data);
   }
 
-  const [totalSpent, setTotalSpent] = useState([]);
-  async function getTotalSpent() {
-    const { data, error } = await supabase.from("transactions").select("amount");
-    if (error) {
-      console.error("Error fetching total spent:", error);
-      return;
-    }
-    const total = data.reduce((acc, transaction) => acc + transaction.amount, 0);
-    setTotalSpent(total.toFixed(2));
-  }
-
   return (
-    <view>
+    <div>
       <h1>Budget Manager</h1>
       <h2>Transactions</h2>
-      <table id="transacitons">
+      <table id="transactions">
         <thead>
           <tr>
             <th>Date</th>
@@ -50,7 +42,7 @@ function App() {
           ))}
         </tbody>
       </table>
-    </view>
+    </div>
   );
 }
 
