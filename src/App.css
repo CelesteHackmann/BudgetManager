@@ -14,3 +14,18 @@ table td {
 table tfoot th {
   text-align: right;
 }
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display:grid;
+  place-items: center;
+  z-index: 1000;
+}
+
+form {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
