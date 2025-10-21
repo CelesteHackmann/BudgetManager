@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { createClient } from '@supabase/supabase-js'
+import './Auth.css'
 
 const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY);
 
@@ -24,7 +25,7 @@ export default function Auth() {
 
     return (
         <div className="row flex flex-center">
-            <div className="col-6 form-widget">
+            <div className="col-6 form-widget authentication">
                 <h1 className="header">Budget Manager</h1>
                 <p className="description">Sign in via magic link with your email below</p>
                 <form className="form-widget" onSubmit={handleLogin}>
