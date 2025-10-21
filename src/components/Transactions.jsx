@@ -12,7 +12,7 @@ export default function Transactions({ session }) {
 
     async function getTransactions() {
         const { user } = session
-        const { data, error } = await supabase.from("transactions").select('id,created_at,description,amount').eq('user_id', user.id).order('created_at', { ascending: true });
+        const { data, error } = await supabase.from("transactions").select('id,date,description,amount').eq('user_id', user.id).order('date', { ascending: true });
         if (error) {
             console.error("Error fetching transactions:", error);
             return;
@@ -35,7 +35,7 @@ export default function Transactions({ session }) {
                 <tbody>
                     {transactions.map((transaction) => (
                         <tr key={transaction.id}>
-                            <td>{transaction.created_at}</td>
+                            <td>{transaction.date}</td>
                             <td>{transaction.description}</td>
                             <td>{transaction.amount}</td>
                         </tr>
