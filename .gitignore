@@ -25,3 +25,4 @@ dist-ssr
 .expo
 expo-env.d.ts
 app-example
+.env

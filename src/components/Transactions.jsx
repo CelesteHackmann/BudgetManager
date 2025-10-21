@@ -3,15 +3,16 @@ import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY);
 
-export default function Transactions() {
+export default function Transactions({ session }) {
     const [transactions, setTransactions] = useState([]);
-
+    
     useEffect(() => {
         getTransactions();
     }, []);
 
     async function getTransactions() {
-        const { data, error } = await supabase.from("transactions").select('id,created_at,description,amount').order('created_at', { ascending: true });
+        const { user } = session
+        const { data, error } = await supabase.from("transactions").select('id,created_at,description,amount').eq('user_id', user.id).order('created_at', { ascending: true });
         if (error) {
             console.error("Error fetching transactions:", error);
             return;
