@@ -14,3 +14,7 @@ table td {
 table tfoot th {
   text-align: right;
 }
+
+#currentUser {
+  float: right;
+}

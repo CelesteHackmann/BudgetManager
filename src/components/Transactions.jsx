@@ -23,7 +23,6 @@ export default function Transactions({ session }) {
     return (
         <div>
             <h1>Budget Manager</h1>
-            <h3>Current User: {user.email}</h3>
             <h2>Transactions</h2>
             <table id="transactions">
                 <thead>
