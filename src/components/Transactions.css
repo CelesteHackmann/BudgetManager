@@ -1,0 +1,22 @@
+#transactions thead {
+    background-color: white;
+}
+
+#transactions>tbody tr:nth-child(odd) {
+    background-color: lightgray;
+}
+
+#transactions>tbody tr:hover {
+    background-color: purple;
+    color: white
+}
+
+table {
+    border: 1px solid;
+    width: auto;
+    border-spacing: 0px;
+}
+
+th, td {
+    padding: 5px;
+}
