@@ -19,7 +19,7 @@ function App() {
   }, []);
 
   async function getTransactions() {
-    const { data, error } = await supabase.from("transactions").select('id,created_at,description,amount').order('created_at', { ascending: true });
+    const { data, error } = await supabase.from("transactions").select('id,date,description,amount').order('date', { ascending: true });
     if (error) {
       console.error("Error fetching transactions:", error);
       return;
@@ -70,7 +70,7 @@ function App() {
         <tbody>
           {transactions.map((transaction) => (
             <tr key={transaction.id}>
-              <td>{transaction.created_at}</td>
+              <td>{transaction.date}</td>
               <td>{transaction.description}</td>
               <td>{transaction.amount}</td>
             </tr>
@@ -88,7 +88,7 @@ function App() {
                 const formData = new FormData(e.target);
                 const description = formData.get("description");
                 const amount = parseFloat(formData.get("amount"));
-                const created_at = formData.get("date");
+                const date = formData.get("date");
                 let type = formData.get("type");
                 let category = formData.get("category");
                 let subcategory = formData.get("subcategory");
@@ -96,14 +96,20 @@ function App() {
                 await supabase.from("types").select('id').eq('name', type).single().then(res => {
                   type = res.data ? res.data.id : null;
                 });
+                if (!type) {
+      
+                  console.error("Invalid type selected");
+                  return;
+                }
                 await supabase.from("categories").select('id').eq('name', category).single().then(res => {
                   category = res.data ? res.data.id : null;
                 });
                 await supabase.from("subcategories").select('id').eq('name', subcategory).single().then(res => {
                   subcategory = res.data ? res.data.id : null;
                 }); 
+                const user_id = "971cce35-958b-4ead-a5a8-cabecd02feef"
 
-                const { error } = await supabase.from("transactions").insert([{ created_at, description, amount, type, category, subcategory }]);
+                const { error } = await supabase.from("transactions").insert([{ date, description, amount, type, category, subcategory, user_id}]);
                 if (error) {
                   console.error("Error adding transaction:", error);
                   return;
@@ -127,6 +133,7 @@ function App() {
               <label>
                 Type:
                 <select name="type" required>
+                  <option>---Select Type---</option>
                   {types.map((type) => (
                     <option key={type} value={type}>
                       {type}
@@ -137,6 +144,7 @@ function App() {
               <label>
                 Category:
                 <select name="category">
+                  <option>---Select Category---</option>
                   {categories.map((category) => (
                     <option key={category.name} value={category.name}>
                       {category.name}
@@ -147,6 +155,7 @@ function App() {
               <label>
                 Subcategory
                 <select name="subcategory">
+                  <option>---Select Subcategory---</option>
                   {subcategories.map((subcategory) => (
                     <option key={subcategory.name} value={subcategory.name}>
                       {subcategory.name}
