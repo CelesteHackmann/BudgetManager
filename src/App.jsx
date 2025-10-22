@@ -1,49 +1,27 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 import './App.css';
+import Auth from './components/Auth';
+import Transactions from './components/Transactions';
+
 
 const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY);
 
 function App() {
-  const [transactions, setTransactions] = useState([]);
+  const [session, setSession] = useState(null)
 
   useEffect(() => {
-    getTransactions();
-  }, []);
-
-  async function getTransactions() {
-    const { data, error } = await supabase.from("transactions").select('id,created_at,description,amount').order('created_at', { ascending: true });
-    if (error) {
-      console.error("Error fetching transactions:", error);
-      return;
-    }
-    setTransactions(data);
-  }
+    supabase.auth.getSession().then(({ data: {session} }) => {
+      setSession(session)
+    })
+  }, [])
 
   return (
-    <div>
-      <h1>Budget Manager</h1>
-      <h2>Transactions</h2>
-      <table id="transactions">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Description</th>
-            <th>Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          {transactions.map((transaction) => (
-            <tr key={transaction.id}>
-              <td>{transaction.created_at}</td>
-              <td>{transaction.description}</td>
-              <td>{transaction.amount}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="container" style={{ padding: '50px 0 100px 0' }}>
+      {!session ? <text id="currentUser">Not Logged In</text> : <text id="currentUser">Current User: {session.user.email}</text>}
+      {!session ? <Auth /> : <Transactions key={session.user.id} session={session} />}
     </div>
-  );
+  )
 }
 
 export default App;
