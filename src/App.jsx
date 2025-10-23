@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
-import { createClient } from "@supabase/supabase-js";
 import './App.css';
 import Auth from './components/Auth';
 import Transactions from './components/Transactions';
-
-
-const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY);
+import { supabase } from "./lib/supabase";
 
 function App() {
   const [session, setSession] = useState(null)
