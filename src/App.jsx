@@ -18,7 +18,7 @@ function App() {
 
   return (
     <div className="container" style={{ padding: '50px 0 100px 0' }}>
-      {!session ? <text id="currentUser">Not Logged In</text> : <text id="currentUser">Current User: {session.user.email}</text>}
+      {!session ? <span id="currentUser">Not Logged In</span> : <span id="currentUser">Current User: {session.user.email}</span>}
       {!session ? <Auth /> : <Transactions key={session.user.id} session={session} />}
     </div>
   )
