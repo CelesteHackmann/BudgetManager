@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './Auth.css'
 import { supabase } from "../lib/supabase";
+import { ToastContainer, toast } from 'react-toastify';
 
 
 export default function Auth() {
@@ -14,9 +15,9 @@ export default function Auth() {
         const { error } = await supabase.auth.signInWithOtp({ email })
 
         if (error) {
-            alert(error.error_description || error.message)
+            toast(error.error_description || error.message)
         } else {
-            alert('Check your email for the login link!')
+            toast('Check your email for the login link!')
         }
         setLoading(false)
     }
@@ -38,9 +39,10 @@ export default function Auth() {
                         />
                     </div>
                     <div>
-                        <button className={'button block'} disabled={loading}>
+                        <button className={'button block'} disabled={loading} type='submit'>
                             {loading ? <span>Loading</span> : <span>Send magic link</span>}
                         </button>
+                        <ToastContainer/>
                     </div>
                 </form>
             </div>
